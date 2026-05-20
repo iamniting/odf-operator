@@ -9,6 +9,7 @@ import (
 
 	operatorsv1alpha1 "github.com/operator-framework/api/pkg/operators/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/yaml"
 )
 
@@ -36,6 +37,23 @@ func main() {
 	for _, csvFile := range csvFiles {
 		csv := unmarshalCSV(csvFile)
 
+		if strings.HasPrefix(csv.Name, "rook-ceph-operator") {
+			odfCsv.Spec.CustomResourceDefinitions.Owned = append(
+				odfCsv.Spec.CustomResourceDefinitions.Owned, []operatorsv1alpha1.CRDDescription{
+					{
+						Kind:    "CephNVMeOFGateway",
+						Name:    "cephnvmeofgateways.ceph.rook.io",
+						Version: "v1",
+					},
+					{
+						Kind:    "CephObjectStoreAccount",
+						Name:    "cephobjectstoreaccounts.ceph.rook.io",
+						Version: "v1",
+					},
+				}...)
+
+		}
+
 		// whitelisting APIs
 		for _, crd := range csv.Spec.CustomResourceDefinitions.Owned {
 			apis = append(apis, crd.Name)
@@ -50,14 +68,18 @@ func main() {
 		odfCsv.Spec.InstallStrategy.StrategySpec.Permissions = append(
 			odfCsv.Spec.InstallStrategy.StrategySpec.Permissions, csv.Spec.InstallStrategy.StrategySpec.Permissions...)
 
+		odfCsv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs = append(
+			odfCsv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs, csv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs...)
+
 		for _, deploymentSpec := range csv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs {
 
-			// Append the deployments to the odf CSV
-			if deploymentSpec.Name == "" {
-				odfCsv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs = append(
-					odfCsv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs, csv.Spec.InstallStrategy.StrategySpec.DeploymentSpecs...)
-				continue
-			}
+			deployments = append(deployments, appsv1.Deployment{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:   deploymentSpec.Name,
+					Labels: deploymentSpec.Label,
+				},
+				Spec: deploymentSpec.Spec,
+			})
 
 			// Append the deployments to the deployments
 			deployment := &appsv1.Deployment{}
@@ -94,7 +116,7 @@ func unmarshalCSV(filePath string) *operatorsv1alpha1.ClusterServiceVersion {
 }
 
 // writeObjectToFile writes a k8s object to the given filePath into yaml format
-func writeObjectToFile(object interface{}, filePath string) {
+func writeObjectToFile(object any, filePath string) {
 
 	bytes, err := yaml.Marshal(object)
 	if err != nil {

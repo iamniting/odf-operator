@@ -1,0 +1,380 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Seamless Upgrades
+    createdAt: "2026-01-14T13:00:58Z"
+    olm.skipRange: ""
+    operators.operatorframework.io/builder: operator-sdk-unknown
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+  name: csi-addons.v0.14.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: CSIAddonsNode is the Schema for the csiaddonsnode API
+      displayName: CSIAddons Node
+      kind: CSIAddonsNode
+      name: csiaddonsnodes.csiaddons.openshift.io
+      version: v1alpha1
+    - description: EncryptionKeyRotationCronJob is the Schema for the encryptionkeyrotationcronjobs
+        API
+      displayName: EncryptionKeyRotation CronJob
+      kind: EncryptionKeyRotationCronJob
+      name: encryptionkeyrotationcronjobs.csiaddons.openshift.io
+      version: v1alpha1
+    - description: EncryptionKeyRotationJob is the Schema for the encryptionkeyrotationjobs
+        API
+      displayName: EncryptionKeyRotation Job
+      kind: EncryptionKeyRotationJob
+      name: encryptionkeyrotationjobs.csiaddons.openshift.io
+      version: v1alpha1
+    - description: NetworkFenceClass is the Schema for the networkfenceclasses API
+      displayName: Network Fence Class
+      kind: NetworkFenceClass
+      name: networkfenceclasses.csiaddons.openshift.io
+      version: v1alpha1
+    - description: NetworkFence is the Schema for the networkfences API
+      displayName: Network Fence
+      kind: NetworkFence
+      name: networkfences.csiaddons.openshift.io
+      version: v1alpha1
+    - description: ReclaimSpaceCronJob is the Schema for the reclaimspacecronjobs
+        API
+      displayName: Reclaim Space CronJob
+      kind: ReclaimSpaceCronJob
+      name: reclaimspacecronjobs.csiaddons.openshift.io
+      version: v1alpha1
+    - description: ReclaimSpaceJob is the Schema for the reclaimspacejobs API
+      displayName: Reclaim Space Job
+      kind: ReclaimSpaceJob
+      name: reclaimspacejobs.csiaddons.openshift.io
+      version: v1alpha1
+    - description: VolumeGroupReplicationClass is the Schema for the volumegroupreplicationclasses
+        API
+      displayName: Volume Group Replication Class
+      kind: VolumeGroupReplicationClass
+      name: volumegroupreplicationclasses.replication.storage.openshift.io
+      version: v1alpha1
+    - description: VolumeGroupReplicationContent is the Schema for the volumegroupreplicationcontents
+        API
+      displayName: Volume Group Replication Content
+      kind: VolumeGroupReplicationContent
+      name: volumegroupreplicationcontents.replication.storage.openshift.io
+      version: v1alpha1
+    - kind: VolumeGroupReplication
+      name: volumegroupreplications.replication.storage.openshift.io
+      version: v1alpha1
+    - description: VolumeReplicationClass is the Schema for the volumereplicationclasses
+        API
+      displayName: Volume Replication Class
+      kind: VolumeReplicationClass
+      name: volumereplicationclasses.replication.storage.openshift.io
+      version: v1alpha1
+    - description: VolumeReplication is the Schema for the volumereplications API
+      displayName: Volume Replication
+      kind: VolumeReplication
+      name: volumereplications.replication.storage.openshift.io
+      version: v1alpha1
+  description: CSI Addons provides the CSI Addons Controller that enables advanced
+    storage operations for CSI-drivers.
+  displayName: CSI Addons
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        - apiGroups:
+          - ""
+          resources:
+          - namespaces
+          - pods
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - persistentvolumeclaims
+          verbs:
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - persistentvolumeclaims/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - ""
+          resources:
+          - persistentvolumes
+          verbs:
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - csiaddons.openshift.io
+          resources:
+          - csiaddonsnodes
+          - encryptionkeyrotationcronjobs
+          - encryptionkeyrotationjobs
+          - networkfenceclasses
+          - networkfences
+          - reclaimspacecronjobs
+          - reclaimspacejobs
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - csiaddons.openshift.io
+          resources:
+          - csiaddonsnodes/finalizers
+          - encryptionkeyrotationcronjobs/finalizers
+          - encryptionkeyrotationjobs/finalizers
+          - networkfenceclasses/finalizers
+          - networkfences/finalizers
+          - reclaimspacecronjobs/finalizers
+          - reclaimspacejobs/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - csiaddons.openshift.io
+          resources:
+          - csiaddonsnodes/status
+          - encryptionkeyrotationcronjobs/status
+          - encryptionkeyrotationjobs/status
+          - networkfenceclasses/status
+          - networkfences/status
+          - reclaimspacecronjobs/status
+          - reclaimspacejobs/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplicationclasses
+          - volumereplicationclasses
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplicationcontents
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplicationcontents/finalizers
+          - volumegroupreplications/finalizers
+          - volumereplications/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplicationcontents/status
+          - volumegroupreplications/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplications
+          verbs:
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumereplications
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumereplications/status
+          verbs:
+          - get
+          - list
+          - update
+        - apiGroups:
+          - storage.k8s.io
+          resources:
+          - storageclasses
+          - volumeattachments
+          verbs:
+          - get
+          - list
+          - watch
+        serviceAccountName: csi-addons-controller-manager
+      deployments:
+      - label:
+          app.kubernetes.io/name: csi-addons
+        name: csi-addons-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: csi-addons
+          strategy: {}
+          template:
+            metadata:
+              annotations:
+                kubectl.kubernetes.io/default-container: manager
+              labels:
+                app.kubernetes.io/name: csi-addons
+                control-plane: controller-manager
+            spec:
+              containers:
+              - args:
+                - --namespace=$(POD_NAMESPACE)
+                - --leader-elect
+                - --automaxprocs
+                command:
+                - /csi-addons-manager
+                env:
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                image: quay.io/csiaddons/k8s-controller:v0.14.0
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8081
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                name: manager
+                ports:
+                - containerPort: 8443
+                  name: metrics
+                  protocol: TCP
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: 8081
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                resources:
+                  limits:
+                    cpu: "1"
+                    memory: 512Mi
+                  requests:
+                    cpu: 10m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  readOnlyRootFilesystem: true
+                terminationMessagePolicy: FallbackToLogsOnError
+              securityContext:
+                runAsNonRoot: true
+              serviceAccountName: csi-addons-controller-manager
+              terminationGracePeriodSeconds: 10
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        serviceAccountName: csi-addons-controller-manager
+    strategy: deployment
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - storage
+  - csi
+  links:
+  - name: CSI Addons
+    url: https://csi-addons.github.io
+  maintainers:
+  - email: csi-addons@redhat.com
+    name: CSI Addons Community
+  maturity: alpha
+  provider:
+    name: CSI Addons Community
+  version: 0.14.0

@@ -1,0 +1,138 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ocs-provider-server
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - secrets
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ceph.rook.io
+    resources:
+      - cephfilesystemsubvolumegroups
+      - cephfilesystems
+      - cephblockpoolradosnamespaces
+      - cephblockpools
+      - cephrbdmirrors
+      - cephclusters
+      - cephnfses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ocs.openshift.io
+    resources:
+      - storageconsumers/finalizers
+      - storageconsumers/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch
+  - apiGroups:
+      - ocs.openshift.io
+    resources:
+      - storageconsumers
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - patch
+      - watch
+  - apiGroups:
+      - ceph.rook.io
+    resources:
+      - cephclients
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - operators.coreos.com
+    resources:
+      - subscriptions
+      - clusterserviceversions
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - packages.operators.coreos.com
+    resources:
+      - packagemanifests
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ocs.openshift.io
+    resources:
+      - storageclusters
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ocs.openshift.io
+    resources:
+      - storageclusterpeers
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - template.openshift.io
+    resources:
+      - templates
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - noobaa.io
+    resources:
+      - noobaas
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - objectbucket.io
+    resources:
+      - objectbucketclaims
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete

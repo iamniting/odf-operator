@@ -1,0 +1,1082 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    categories: Storage
+    createdAt: "2026-04-22T19:07:11Z"
+    description: IBM Storage Scale container native is a containerized version of
+      IBM Storage Scale.
+    operatorframework.io/suggested-namespace: ibm-spectrum-scale
+    operators.operatorframework.io/builder: operator-sdk-v1.40.0
+    operators.operatorframework.io/operator-type: non-standalone
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+    support: IBM
+  labels:
+    operatorframework.io/arch.amd64: supported
+    operatorframework.io/arch.ppc64le: supported
+    operatorframework.io/arch.s390x: supported
+  name: ibm-spectrum-scale-operator.v60.1.100
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - kind: ApprovalRequest
+      name: approvalrequests.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: CacheVolumeOperation
+      name: cachevolumeoperations.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: CacheVolume
+      name: cachevolumes.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: Callhome
+      name: callhomes.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: ClusterInterconnect
+      name: clusterinterconnects.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: Cluster
+      name: clusters.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: CompressionJob
+      name: compressionjobs.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: ConsistencyGroup
+      name: consistencygroups.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: CSIScaleOperator
+      name: csiscaleoperators.csi.ibm.com
+      version: v1
+    - kind: Daemon
+      name: daemons.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: DiskJob
+      name: diskjobs.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: DNSConfig
+      name: dnsconfigs.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: DNS
+      name: dnss.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: EncryptionConfig
+      name: encryptionconfigs.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: FilesystemRecoveryData
+      name: filesystemrecoverydata.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: Filesystem
+      name: filesystems.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: GrafanaBridge
+      name: grafanabridges.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: Gui
+      name: guis.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: LocalDisk
+      name: localdisks.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: Pmcollector
+      name: pmcollectors.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: RecoveryConfigStore
+      name: recoveryconfigstores.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: RemoteCluster
+      name: remoteclusters.scale.spectrum.ibm.com
+      version: v1beta1
+    - kind: RestripeFSJob
+      name: restripefsjobs.scale.spectrum.ibm.com
+      version: v1alpha1
+    - kind: UpgradeApproval
+      name: upgradeapprovals.scale.spectrum.ibm.com
+      version: v1alpha1
+  description: |
+    **IBM Storage Scale container native is a containerized version of IBM Storage Scale
+    ### IBM Storage Scale
+    IBM Storage Scale is a clustered file system that provides concurrent access to a single file system or set of file systems from multiple nodes.
+    The nodes can be SAN attached, network attached, or a mixture of SAN attached and network attached.
+    IBM Storage Scale enables high-performance access to this common set of data to support a scale-out solution or to provide a high availability platform.
+    For more information about IBM Storage Scale features, see Product overview in [IBM Storage Scale documentation][1].
+
+    IBM Storage Scale container native allows the deployment of IBM Storage Scale in a Red Hat OpenShift cluster.
+    IBM Storage Scale container native deployment makes a persistent data store available by either IBM Storage Scale remote file system or local file system.
+    This data store can be used by the applications through the IBM Storage Scale CSI driver by using Persistent Volumes (PVs).
+    For more information, see [IBM Storage Scale Container Storage Interface Driver][2] in the IBM Storage Scale CSI documentation.
+
+    [1]: https://www.ibm.com/docs/en/storage-scale/6.0.0
+    [2]: https://www.ibm.com/docs/en/scalecsi/3.0.0
+  displayName: IBM Storage Scale
+  icon:
+  - base64data: /9j/2wBDAFA3PEY8MlBGQUZaVVBfeMiCeG5uePWvuZHI////////////////////////////////////////////////////2wBDAVVaWnhpeOuCguv/////////////////////////////////////////////////////////////////////////wAARCAHOAzoDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAECAwQF/8QANBABAAIBAgQFBAEEAQMFAAAAAAECAxExBCEycRITQVFhM1KBkRQiNHKhsUKS4SMkU2Pw/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//EABsRAQEBAQEBAQEAAAAAAAAAAAABEQIxEiFB/9oADAMBAAIRAxEAPwDtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWbRXeQWUteK/MqWvM7coUZvSNa5Nd+S+7nWraa7JOhuKVvE/ErtqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAImYiOatskRtzZTMzPNm0Xtk+1TfdAzbqACAAoL1vNfmFAG9bRbZZzNK5PuanStRETExyS0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAInYEWvFe7K15t2RMTE6Shi1ABkBMRMzpDSuPTfmsmilazbZpWkV+ZWS3IqJrE7wytjmNucNgs0cw3tSLfEsrVmrNmIqAyJiZjaWlckTvyZCy4OkVpGleazooAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAClskRtzkFxnS8zbSfVokugAozy15asnQz8ufF8M2IzaVxzO/Je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
+    mediatype: image/jpg
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - PersistentVolume
+          verbs:
+          - get
+          - list
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          - persistentvolumeclaims
+          - pods
+          - secrets
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - daemonsets
+          - deployments
+          verbs:
+          - delete
+          - get
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - endpoints
+          - secrets/status
+          - services/finalizers
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - namespaces
+          verbs:
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - nodes
+          verbs:
+          - get
+          - list
+          - patch
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - nodes/status
+          verbs:
+          - get
+          - list
+          - patch
+          - update
+        - apiGroups:
+          - ""
+          resources:
+          - persistentvolumes
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - pods/eviction
+          - pods/exec
+          verbs:
+          - create
+        - apiGroups:
+          - ""
+          resources:
+          - pods/status
+          verbs:
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - serviceaccounts
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resourceNames:
+          - ibm-spectrum-scale-csi-operator
+          resources:
+          - serviceaccounts
+          verbs:
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - services
+          verbs:
+          - '*'
+        - apiGroups:
+          - admissionregistration.k8s.io
+          resources:
+          - mutatingwebhookconfigurations
+          - validatingwebhookconfigurations
+          verbs:
+          - delete
+          - get
+        - apiGroups:
+          - apiextensions.k8s.io
+          resources:
+          - customresourcedefinitions
+          verbs:
+          - get
+          - list
+        - apiGroups:
+          - apps
+          resources:
+          - daemonsets
+          - deployments
+          - statefulsets
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - apps
+          resourceNames:
+          - ibm-spectrum-scale-csi-operator
+          resources:
+          - deployments
+          verbs:
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - apps
+          resources:
+          - replicasets
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
+          - build.openshift.io
+          resources:
+          - builds
+          verbs:
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - config.openshift.io
+          resources:
+          - clusterversions
+          - dnses
+          - networks
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
+          - csi.ibm.com
+          resources:
+          - '*'
+          verbs:
+          - '*'
+        - apiGroups:
+          - csi.ibm.com
+          resources:
+          - csiscaleoperators
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - csi.ibm.com
+          resources:
+          - csiscaleoperators/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - csi.ibm.com
+          resources:
+          - csiscaleoperators/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - discovery.k8s.io
+          resources:
+          - endpointslices
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - kmm.sigs.x-k8s.io
+          resources:
+          - modules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - machineconfiguration.openshift.io
+          resources:
+          - machineconfigpools
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - monitoring.coreos.com
+          resources:
+          - servicemonitors
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - monitoring.coreos.com
+          resources:
+          - servicemonitors/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - networking.k8s.io
+          resources:
+          - networkpolicies
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - networking.k8s.io
+          resources:
+          - networkpolicies/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - networking.k8s.io
+          resources:
+          - networkpolicies/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - oauth.openshift.io
+          resources:
+          - oauthclients
+          verbs:
+          - create
+          - get
+          - list
+          - patch
+          - watch
+        - apiGroups:
+          - operators.coreos.com
+          resources:
+          - clusterserviceversions
+          verbs:
+          - get
+          - list
+        - apiGroups:
+          - policy
+          resources:
+          - poddisruptionbudgets
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - watch
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - clusterrolebindings
+          - clusterroles
+          verbs:
+          - '*'
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resourceNames:
+          - ibm-spectrum-scale-csi-operator
+          resources:
+          - clusterrolebindings
+          - clusterroles
+          verbs:
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplicationclasses
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplicationclasses/status
+          verbs:
+          - get
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplications
+          verbs:
+          - get
+          - list
+          - patch
+          - watch
+        - apiGroups:
+          - replication.storage.openshift.io
+          resources:
+          - volumegroupreplications/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - route.openshift.io
+          resources:
+          - routes
+          verbs:
+          - create
+          - get
+          - list
+          - patch
+          - watch
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - ""
+          - approvalrequests
+          - cachevolumeoperations
+          - cachevolumes
+          - callhomes
+          - clusterinterconnects
+          - clusters
+          - compressionjobs
+          - consistencygroups
+          - daemons
+          - diskjobs
+          - dnsconfigs
+          - dnss
+          - encryptionconfigs
+          - filesystems
+          - grafanabridges
+          - guis
+          - localdisks
+          - pmcollectors
+          - remoteclusters
+          - restripefsjobs
+          - upgradeapprovals
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - approvalrequests/status
+          - cachevolumeoperations/status
+          - cachevolumes/status
+          - callhomes/status
+          - clusters/status
+          - compressionjobs/status
+          - consistencygroups/status
+          - daemons/status
+          - diskjobs/status
+          - dnss/status
+          - encryptionconfigs/status
+          - guis/status
+          - localdisks/status
+          - pmcollectors/status
+          - remoteclusters/status
+          - restripefsjobs/status
+          - threadDeadlockCapture/status
+          - upgradeapprovals/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - callhomes/finalizers
+          - clusters/finalizers
+          - compressionjobs/finalizers
+          - daemons/finalizers
+          - diskjobs/finalizers
+          - dnss/finalizers
+          - encryptionconfigs/finalizers
+          - filesystems/finalizers
+          - grafanabridges/finalizers
+          - guis/finalizers
+          - localdisks/finalizers
+          - pmcollectors/finalizers
+          - remoteclusters/finalizers
+          - restripefsjobs/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - filesystem
+          verbs:
+          - get
+          - list
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - filesystemrecoverydata
+          verbs:
+          - '*'
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - filesystemrecoverydata/status
+          - filesystems/status
+          verbs:
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - scale.spectrum.ibm.com
+          resources:
+          - grafanabridges/status
+          verbs:
+          - delete
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - security.openshift.io
+          resources:
+          - securitycontextconstraints
+          verbs:
+          - '*'
+        - apiGroups:
+          - snapshot.storage.k8s.io
+          resources:
+          - volumesnapshotclasses
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
+          - storage.k8s.io
+          resources:
+          - csidrivers
+          - storageclasses
+          - volumeattachments
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - security.openshift.io
+          resourceNames:
+          - ibm-spectrum-scale-privileged
+          resources:
+          - securitycontextconstraints
+          verbs:
+          - use
+        serviceAccountName: ibm-spectrum-scale-operator
+      deployments:
+      - label:
+          app.kubernetes.io/instance: ibm-spectrum-scale
+          app.kubernetes.io/name: operator
+          app.kubernetes.io/version: v6.0.1.1
+          control-plane: controller-manager
+        name: ibm-spectrum-scale-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app.kubernetes.io/instance: ibm-spectrum-scale
+              app.kubernetes.io/name: operator
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              labels:
+                app.kubernetes.io/instance: ibm-spectrum-scale
+                app.kubernetes.io/name: operator
+                app.kubernetes.io/version: v6.0.1.1
+                control-plane: controller-manager
+            spec:
+              affinity:
+                nodeAffinity:
+                  preferredDuringSchedulingIgnoredDuringExecution:
+                  - preference:
+                      matchExpressions:
+                      - key: node-role.kubernetes.io/control-plane
+                        operator: Exists
+                    weight: 10
+                  - preference:
+                      matchExpressions:
+                      - key: scale.spectrum.ibm.com/controller-manager
+                        operator: Exists
+                    weight: 100
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                    - matchExpressions:
+                      - key: kubernetes.io/os
+                        operator: In
+                        values:
+                        - linux
+                      - key: kubernetes.io/arch
+                        operator: In
+                        values:
+                        - amd64
+                        - ppc64le
+                        - s390x
+                        - arm64
+              containers:
+              - args:
+                - --config=/config/controller_manager_config.yaml
+                - --zap-log-level=1
+                command:
+                - /manager
+                env:
+                - name: GOVMOMI_HOME
+                  value: /tmp
+                - name: GOMEMLIMIT
+                  valueFrom:
+                    resourceFieldRef:
+                      divisor: "0"
+                      resource: limits.memory
+                - name: OPERATOR_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                image: icr.io/cpopen/ibm-spectrum-scale-operator@sha256:85b94f637d534e031e8b1c92823826fa060408dc2779049d2b08895be29e2935
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8081
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                name: manager
+                ports:
+                - containerPort: 9443
+                  name: webhook-server
+                  protocol: TCP
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: 8081
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                resources:
+                  limits:
+                    cpu: 1500m
+                    memory: 400Mi
+                  requests:
+                    cpu: 500m
+                    memory: 200Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                    - ALL
+                  privileged: false
+                  readOnlyRootFilesystem: true
+                  runAsNonRoot: true
+                  seccompProfile:
+                    type: RuntimeDefault
+                volumeMounts:
+                - mountPath: /tmp/k8s-webhook-server/serving-certs
+                  name: cert
+                  readOnly: true
+                - mountPath: /config
+                  name: manager-config
+                - mountPath: /etc/ssl/service
+                  name: cabundle
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault
+              serviceAccountName: ibm-spectrum-scale-operator
+              terminationGracePeriodSeconds: 10
+              tolerations:
+              - effect: NoSchedule
+                key: node-role.kubernetes.io/control-plane
+                operator: Exists
+              - effect: NoSchedule
+                key: node-role.kubernetes.io/master
+                operator: Exists
+              topologySpreadConstraints:
+              - labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: ibm-spectrum-scale
+                    app.kubernetes.io/name: operator
+                maxSkew: 1
+                topologyKey: kubernetes.io/hostname
+                whenUnsatisfiable: DoNotSchedule
+              volumes:
+              - name: cert
+                secret:
+                  defaultMode: 420
+                  secretName: ibm-spectrum-scale-webhook-service-cert
+              - configMap:
+                  name: ibm-spectrum-scale-manager-config
+                name: manager-config
+              - configMap:
+                  name: ibm-spectrum-scale-cabundle
+                  optional: true
+                name: cabundle
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          - coordination.k8s.io
+          resources:
+          - configmaps
+          - leases
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        serviceAccountName: ibm-spectrum-scale-operator
+    strategy: deployment
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: true
+    type: SingleNamespace
+  keywords:
+  - operator
+  - data
+  - storage
+  links:
+  - name: User Documentation
+    url: https://www.ibm.com/docs/en/scalecontainernative/6.0.1
+  maintainers:
+  - email: mysphelp@us.ibm.com
+    name: IBM Support
+  maturity: alpha
+  minKubeVersion: 1.16.0
+  provider:
+    name: IBM
+  version: 60.1.100
+  webhookdefinitions:
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Ignore
+    generateName: mcluster.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - clusters
+    sideEffects: None
+    targetPort: 9443
+    type: MutatingAdmissionWebhook
+    webhookPath: /mutate-scale-spectrum-ibm-com-v1beta1-cluster
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Ignore
+    generateName: mfilesystem.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - filesystems
+    sideEffects: None
+    targetPort: 9443
+    type: MutatingAdmissionWebhook
+    webhookPath: /mutate-scale-spectrum-ibm-com-v1beta1-filesystem
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Fail
+    generateName: vapprovalrequest.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1alpha1
+      operations:
+      - UPDATE
+      - DELETE
+      resources:
+      - approvalrequests
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1alpha1-approvalrequest
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Fail
+    generateName: vcachevolumeoperation.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1alpha1
+      operations:
+      - CREATE
+      - UPDATE
+      - DELETE
+      resources:
+      - cachevolumeoperations
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1alpha1-cachevolumeoperation
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Ignore
+    generateName: vcluster.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - clusters
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1beta1-cluster
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Fail
+    generateName: vclusterinterconnect.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1alpha1
+      operations:
+      - UPDATE
+      - DELETE
+      resources:
+      - clusterinterconnects
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1alpha1-clusterinterconnect
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Fail
+    generateName: vencryptionconfig.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      - DELETE
+      resources:
+      - encryptionconfigs
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1beta1-encryptionconfig
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Fail
+    generateName: veviction.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      - v1beta1
+      operations:
+      - CREATE
+      resources:
+      - pods/eviction
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-pod-eviction
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Ignore
+    generateName: vfilesystem.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      - DELETE
+      resources:
+      - filesystems
+    sideEffects: None
+    targetPort: 9443
+    timeoutSeconds: 30
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1beta1-filesystem
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Ignore
+    generateName: vlocaldisk.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      - DELETE
+      resources:
+      - localdisks
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1beta1-localdisk
+  - admissionReviewVersions:
+    - v1
+    containerPort: 443
+    deploymentName: ibm-spectrum-scale-controller-manager
+    failurePolicy: Ignore
+    generateName: vremotecluster.scale.spectrum.ibm.com
+    rules:
+    - apiGroups:
+      - scale.spectrum.ibm.com
+      apiVersions:
+      - v1beta1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - remoteclusters
+    sideEffects: None
+    targetPort: 9443
+    type: ValidatingAdmissionWebhook
+    webhookPath: /validate-scale-spectrum-ibm-com-v1beta1-remotecluster
