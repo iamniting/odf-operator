@@ -315,9 +315,9 @@ bundle: manifests kustomize operator-sdk extract-maifests ## Generate bundle man
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	$(KUSTOMIZE) build config/manifests | $(OPERATOR_SDK) generate bundle $(BUNDLE_GEN_FLAGS)
 	$(OPERATOR_SDK) bundle validate ./bundle
-	find config/bundles/*/manifests -type f ! -name '*clusterserviceversion.yaml' -exec cp {} bundle/manifests/ \;
-	go run cmd/csv-merger/main.go --csv-input-files "$(shell find config/bundles -type f -name '*clusterserviceversion.yaml')"
-	$(OPERATOR_SDK) bundle validate ./bundle
+	#find config/bundles/*/manifests -type f ! -name '*clusterserviceversion.yaml' -exec cp {} bundle/manifests/ \;
+	#go run cmd/csv-merger/main.go --csv-input-files "$(shell find config/bundles -type f -name '*clusterserviceversion.yaml')"
+	#$(OPERATOR_SDK) bundle validate ./bundle
 
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.
@@ -361,8 +361,7 @@ endif
 # https://github.com/operator-framework/community-operators/blob/7f1438c/docs/packaging-operator.md#updating-your-existing-operator
 .PHONY: catalog-build
 catalog-build: opm ## Build a catalog image.
-	$(OPM) render --output=yaml $(BUNDLE_IMG) $(OPM_RENDER_OPTS) > catalog/odf.yaml
-	$(OPM) index add --container-tool $(CONTAINER_TOOL) --mode semver --tag $(CATALOG_IMG) --bundles $(BUNDLE_IMGS) $(FROM_INDEX_OPT)
+	$(CONTAINER_TOOL) build -f catalog.Dockerfile -t $(CATALOG_IMG) .
 
 # Push the catalog image.
 .PHONY: catalog-push

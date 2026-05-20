@@ -19,6 +19,7 @@ package main
 import (
 	"crypto/tls"
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -36,8 +37,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/metrics/filters"
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/red-hat-storage/odf-operator/internal/controller"
+	odfwebhook "github.com/red-hat-storage/odf-operator/internal/webhook"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -176,6 +179,13 @@ func main() {
 		})
 	}
 
+	operatorNamespace, found := os.LookupEnv("OPERATOR_NAMESPACE")
+	if !found {
+		err := fmt.Errorf("OPERATOR_NAMESPACE must be set")
+		setupLog.Error(err, "unable to get operator namespace")
+		os.Exit(1)
+	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:                 scheme,
 		Metrics:                metricsServerOptions,
@@ -201,10 +211,20 @@ func main() {
 	}
 
 	if err := (&controller.DeployerReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
+		Client:            mgr.GetClient(),
+		Scheme:            mgr.GetScheme(),
+		OperatorNamespace: operatorNamespace,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Deployer")
+		os.Exit(1)
+	}
+
+	if err := (&odfwebhook.OperatorDeploymentMutator{
+		Client:            mgr.GetClient(),
+		Decoder:           admission.NewDecoder(mgr.GetScheme()),
+		OperatorNamespace: operatorNamespace,
+	}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "Deployment")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

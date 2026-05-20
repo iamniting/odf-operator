@@ -19,6 +19,7 @@ package controller
 import (
 	"context"
 
+	admrv1 "k8s.io/api/admissionregistration/v1"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -30,15 +31,21 @@ import (
 )
 
 type DeployerReconciler struct {
-	client.Client
-	Scheme *runtime.Scheme
+	Client            client.Client
+	Scheme            *runtime.Scheme
+	OperatorNamespace string
 }
 
 //+kubebuilder:rbac:groups="apps",resources=deployments,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=mutatingwebhookconfigurations,verbs=get;list;watch;create;update
 
 func (r *DeployerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := log.FromContext(ctx)
 	logger.Info("starting reconcile")
+
+	if err := reconcileWebhook(ctx, r.Client, logger, r.OperatorNamespace); err != nil {
+		return ctrl.Result{}, err
+	}
 
 	logger.Info("reconcile completed successfully")
 	return ctrl.Result{}, nil
@@ -50,6 +57,11 @@ func (r *DeployerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Named("deployer").
 		Watches(
 			&appsv1.Deployment{},
+			&handler.EnqueueRequestForObject{},
+			builder.WithPredicates(predicate.GenerationChangedPredicate{}),
+		).
+		Watches(
+			&admrv1.MutatingWebhookConfiguration{},
 			&handler.EnqueueRequestForObject{},
 			builder.WithPredicates(predicate.GenerationChangedPredicate{}),
 		).

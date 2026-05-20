@@ -94,6 +94,7 @@ extract-maifests:
 	$(CONTAINER_TOOL) rm cnsa
 
 render-bundles: opm
+	$(OPM) render $(BUNDLE_IMG) > catalog/odf.json
 	$(OPM) render $(CEPHCSI_BUNDLE_IMG) > catalog/cephcsi.json
 	$(OPM) render $(CSIADDONS_BUNDLE_IMG) > catalog/csiaddons.json
 	$(OPM) render $(NOOBAA_BUNDLE_IMG) > catalog/noobaa.json
@@ -107,3 +108,4 @@ render-bundles: opm
 	$(OPM) render $(IBM_ODF_BUNDLE_IMG) > catalog/ibm-odf.json
 	$(OPM) render $(IBM_CSI_BUNDLE_IMG) > catalog/ibm-csi.json
 	$(OPM) render $(CNSA_BUNDLE_IMG) > catalog/cnsa.json
+	$(OPM) validate catalog

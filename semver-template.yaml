@@ -1,6 +1,0 @@
-schema: olm.semver
-generateMajorChannels: true
-generateMinorChannels: true
-stable:
-  bundles:
-    - image: quay.io/nigoyal/odf-operator-bundle:latest
