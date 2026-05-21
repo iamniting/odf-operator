@@ -201,7 +201,7 @@ metadata:
     operators.operatorframework.io/project_layout: unknown
     tectonic-visibility: ocs
     repository: https://github.com/red-hat-storage/rook
-    containerImage: quay.io/ocs-dev/rook-ceph:vmaster-89eb70f42
+    containerImage: quay.io/ocs-dev/rook-ceph:vmaster-8f56a42d2
     operators.operatorframework.io/operator-type: non-standalone
   name: rook-ceph-operator.v4.22.0
   namespace: placeholder
@@ -209,182 +209,63 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-      - kind: CephCluster
-        name: cephclusters.ceph.rook.io
-        version: v1
-        displayName: Ceph Cluster
-        description: Represents a Ceph cluster.
-      - kind: CephBlockPool
-        name: cephblockpools.ceph.rook.io
-        version: v1
-        displayName: Ceph Block Pool
-        description: Represents a Ceph Block Pool.
-      - kind: CephObjectStore
-        name: cephobjectstores.ceph.rook.io
-        version: v1
-        displayName: Ceph Object Store
-        description: Represents a Ceph Object Store.
-        specDescriptors:
-          - description: Coding Chunks
-            displayName: Coding Chunks
-            path: dataPool.erasureCoded.codingChunks
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:dataPool
-              - urn:alm:descriptor:com.tectonic.ui:number
-          - description: Data Chunks
-            displayName: Data Chunks
-            path: dataPool.erasureCoded.dataChunks
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:dataPool
-              - urn:alm:descriptor:com.tectonic.ui:number
-          - description: failureDomain
-            displayName: failureDomain
-            path: dataPool.failureDomain
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:dataPool
-              - urn:alm:descriptor:com.tectonic.ui:text
-          - description: Size
-            displayName: Size
-            path: dataPool.replicated.size
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:dataPool
-              - urn:alm:descriptor:com.tectonic.ui:number
-          - description: Annotations
-            displayName: Annotations
-            path: gateway.annotations
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:io.kubernetes:annotations
-          - description: Instances
-            displayName: Instances
-            path: gateway.instances
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:com.tectonic.ui:number
-          - description: Resources
-            displayName: Resources
-            path: gateway.resources
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:com.tectonic.ui:resourceRequirements
-          - description: placement
-            displayName: placement
-            path: gateway.placement
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:io.kubernetes:placement
-          - description: securePort
-            displayName: securePort
-            path: gateway.securePort
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:io.kubernetes:securePort
-          - description: sslCertificateRef
-            displayName: sslCertificateRef
-            path: gateway.sslCertificateRef
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:io.kubernetes:sslCertificateRef
-          - description: Type
-            displayName: Type
-            path: gateway.type
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:gateway
-              - urn:alm:descriptor:com.tectonic.ui:text
-          - description: Coding Chunks
-            displayName: Coding Chunks
-            path: metadataPool.erasureCoded.codingChunks
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:metadataPool
-              - urn:alm:descriptor:com.tectonic.ui:number
-          - description: Data Chunks
-            displayName: Data Chunks
-            path: metadataPool.erasureCoded.dataChunks
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:metadataPool
-              - urn:alm:descriptor:com.tectonic.ui:number
-          - description: failureDomain
-            displayName: failureDomain
-            path: metadataPool.failureDomain
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:metadataPool
-              - urn:alm:descriptor:com.tectonic.ui:text
-          - description: Size
-            displayName: Size
-            path: metadataPool.replicated.size
-            x-descriptors:
-              - urn:alm:descriptor:com.tectonic.ui:fieldGroup:metadataPool
-              - urn:alm:descriptor:com.tectonic.ui:number
-      - kind: CephObjectStoreUser
-        name: cephobjectstoreusers.ceph.rook.io
-        version: v1
-        displayName: Ceph Object Store User
-        description: Represents a Ceph Object Store User.
-      - kind: CephNFS
-        name: cephnfses.ceph.rook.io
-        version: v1
-        displayName: Ceph NFS
-        description: Represents a cluster of Ceph NFS ganesha gateways.
-      - kind: CephClient
-        name: cephclients.ceph.rook.io
-        version: v1
-        displayName: Ceph Client
-        description: Represents a Ceph User.
-      - kind: CephFilesystem
-        name: cephfilesystems.ceph.rook.io
-        version: v1
-        displayName: Ceph Filesystem
-        description: Represents a Ceph Filesystem.
-      - kind: CephFilesystemMirror
-        name: cephfilesystemmirrors.ceph.rook.io
-        version: v1
-        displayName: Ceph Filesystem Mirror
-        description: Represents a Ceph Filesystem Mirror.
-      - kind: CephRBDMirror
-        name: cephrbdmirrors.ceph.rook.io
-        version: v1
-        displayName: Ceph RBD Mirror
-        description: Represents a Ceph RBD Mirror.
-      - kind: CephObjectRealm
-        name: cephobjectrealms.ceph.rook.io
-        version: v1
-        displayName: Ceph Object Store Realm
-        description: Represents a Ceph Object Store Realm.
-      - kind: CephObjectZoneGroup
-        name: cephobjectzonegroups.ceph.rook.io
-        version: v1
-        displayName: Ceph Object Store Zone Group
-        description: Represents a Ceph Object Store Zone Group.
-      - kind: CephObjectZone
-        name: cephobjectzones.ceph.rook.io
-        version: v1
-        displayName: Ceph Object Store Zone
-        description: Represents a Ceph Object Store Zone.
-      - kind: CephBucketNotification
-        name: cephbucketnotifications.ceph.rook.io
-        version: v1
-        displayName: Ceph Bucket Notification
-        description: Represents a Ceph Bucket Notification.
-      - kind: CephBucketTopic
-        name: cephbuckettopics.ceph.rook.io
-        version: v1
-        displayName: Ceph Bucket Topic
-        description: Represents a Ceph Bucket Topic.
-      - kind: CephFilesystemSubVolumeGroup
-        name: cephfilesystemsubvolumegroups.ceph.rook.io
-        version: v1
-        displayName: Ceph Filesystem SubVolumeGroup
-        description: Represents a Ceph Filesystem SubVolumeGroup.
       - kind: CephBlockPoolRadosNamespace
         name: cephblockpoolradosnamespaces.ceph.rook.io
         version: v1
-        displayName: Ceph BlockPool Rados Namespace
-        description: Represents a Ceph BlockPool Rados Namespace.
+      - kind: CephBlockPool
+        name: cephblockpools.ceph.rook.io
+        version: v1
+      - kind: CephBucketNotification
+        name: cephbucketnotifications.ceph.rook.io
+        version: v1
+      - kind: CephBucketTopic
+        name: cephbuckettopics.ceph.rook.io
+        version: v1
+      - kind: CephClient
+        name: cephclients.ceph.rook.io
+        version: v1
+      - kind: CephCluster
+        name: cephclusters.ceph.rook.io
+        version: v1
       - kind: CephCOSIDriver
         name: cephcosidrivers.ceph.rook.io
         version: v1
-        displayName: Ceph COSI Driver
-        description: Represents a Ceph COSI Driver.
+      - kind: CephFilesystemMirror
+        name: cephfilesystemmirrors.ceph.rook.io
+        version: v1
+      - kind: CephFilesystem
+        name: cephfilesystems.ceph.rook.io
+        version: v1
+      - kind: CephFilesystemSubVolumeGroup
+        name: cephfilesystemsubvolumegroups.ceph.rook.io
+        version: v1
+      - kind: CephNFS
+        name: cephnfses.ceph.rook.io
+        version: v1
+      - kind: CephNVMeOFGateway
+        name: cephnvmeofgateways.ceph.rook.io
+        version: v1
+      - kind: CephObjectRealm
+        name: cephobjectrealms.ceph.rook.io
+        version: v1
+      - kind: CephObjectStoreAccount
+        name: cephobjectstoreaccounts.ceph.rook.io
+        version: v1
+      - kind: CephObjectStore
+        name: cephobjectstores.ceph.rook.io
+        version: v1
+      - kind: CephObjectStoreUser
+        name: cephobjectstoreusers.ceph.rook.io
+        version: v1
+      - kind: CephObjectZoneGroup
+        name: cephobjectzonegroups.ceph.rook.io
+        version: v1
+      - kind: CephObjectZone
+        name: cephobjectzones.ceph.rook.io
+        version: v1
+      - kind: CephRBDMirror
+        name: cephrbdmirrors.ceph.rook.io
+        version: v1
   description: |
     The Rook-Ceph storage operator packages, deploys, manages, upgrades and scales Ceph storage for providing persistent storage to infrastructure services (Logging, Metrics, Registry) as well as stateful applications in Kubernetes clusters.
 
@@ -466,13 +347,22 @@ spec:
                 - ""
               resources:
                 - pods
-                - nodes
                 - secrets
                 - configmaps
               verbs:
                 - get
                 - list
                 - watch
+            - apiGroups:
+                - ""
+              resources:
+                - nodes
+              verbs:
+                - get
+                - list
+                - watch
+                - patch
+                - update
             - apiGroups:
                 - ""
                 - discovery.k8s.io
@@ -781,620 +671,6 @@ spec:
                 - watch
           serviceAccountName: rook-ceph-system
         - rules:
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - secrets
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - configmaps
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts/token
-              verbs:
-                - create
-          serviceAccountName: rook-csi-cephfs-plugin-sa
-        - rules:
-            - apiGroups:
-                - ""
-              resources:
-                - secrets
-              verbs:
-                - get
-                - list
-            - apiGroups:
-                - ""
-              resources:
-                - configmaps
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - csinodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumes
-              verbs:
-                - get
-                - list
-                - watch
-                - create
-                - update
-                - delete
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumeclaims
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-                - update
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - storageclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - events
-              verbs:
-                - list
-                - watch
-                - create
-                - update
-                - patch
-            - apiGroups:
-                - events.k8s.io
-              resources:
-                - events
-              verbs:
-                - create
-                - patch
-                - update
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments/status
-              verbs:
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumeclaims/status
-              verbs:
-                - patch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshots
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotcontents
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-                - update
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotcontents/status
-              verbs:
-                - update
-                - patch
-            - apiGroups:
-                - groupsnapshot.storage.k8s.io
-              resources:
-                - volumegroupsnapshotclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - groupsnapshot.storage.k8s.io
-              resources:
-                - volumegroupsnapshotcontents
-              verbs:
-                - get
-                - list
-                - watch
-                - update
-                - patch
-            - apiGroups:
-                - groupsnapshot.storage.k8s.io
-              resources:
-                - volumegroupsnapshotcontents/status
-              verbs:
-                - update
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts/token
-              verbs:
-                - create
-            - apiGroups:
-                - authentication.k8s.io
-              resources:
-                - tokenreviews
-              verbs:
-                - create
-          serviceAccountName: rook-csi-cephfs-provisioner-sa
-        - rules:
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-          serviceAccountName: rook-csi-nfs-plugin-sa
-        - rules:
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumes
-              verbs:
-                - get
-                - list
-                - watch
-                - create
-                - update
-                - delete
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumeclaims
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-                - update
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - storageclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - events
-              verbs:
-                - get
-                - list
-                - watch
-                - create
-                - update
-                - patch
-            - apiGroups:
-                - events.k8s.io
-              resources:
-                - events
-              verbs:
-                - create
-                - patch
-                - update
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - csinodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - coordination.k8s.io
-              resources:
-                - leases
-              verbs:
-                - get
-                - list
-                - watch
-                - create
-                - update
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - secrets
-              verbs:
-                - get
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotcontents
-              verbs:
-                - get
-                - list
-                - watch
-                - update
-                - patch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotcontents/status
-              verbs:
-                - update
-                - patch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshots
-              verbs:
-                - get
-                - list
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumeclaims/status
-              verbs:
-                - patch
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments/status
-              verbs:
-                - patch
-          serviceAccountName: rook-csi-nfs-provisioner-sa
-        - rules:
-            - apiGroups:
-                - ""
-              resources:
-                - secrets
-              verbs:
-                - get
-                - list
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumes
-              verbs:
-                - get
-                - list
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments
-              verbs:
-                - get
-                - list
-            - apiGroups:
-                - ""
-              resources:
-                - configmaps
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts/token
-              verbs:
-                - create
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-            - apiGroups:
-                - authentication.k8s.io
-              resources:
-                - tokenreviews
-              verbs:
-                - create
-          serviceAccountName: rook-csi-rbd-plugin-sa
-        - rules:
-            - apiGroups:
-                - ""
-              resources:
-                - secrets
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumes
-              verbs:
-                - get
-                - list
-                - watch
-                - create
-                - update
-                - delete
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumeclaims
-              verbs:
-                - get
-                - list
-                - watch
-                - update
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - storageclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - events
-              verbs:
-                - list
-                - watch
-                - create
-                - update
-                - patch
-            - apiGroups:
-                - events.k8s.io
-              resources:
-                - events
-              verbs:
-                - create
-                - patch
-                - update
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - volumeattachments/status
-              verbs:
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - storage.k8s.io
-              resources:
-                - csinodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - ""
-              resources:
-                - persistentvolumeclaims/status
-              verbs:
-                - patch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshots
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotcontents
-              verbs:
-                - get
-                - list
-                - watch
-                - patch
-                - update
-            - apiGroups:
-                - snapshot.storage.k8s.io
-              resources:
-                - volumesnapshotcontents/status
-              verbs:
-                - update
-                - patch
-            - apiGroups:
-                - groupsnapshot.storage.k8s.io
-              resources:
-                - volumegroupsnapshotclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - groupsnapshot.storage.k8s.io
-              resources:
-                - volumegroupsnapshotcontents
-              verbs:
-                - get
-                - list
-                - watch
-                - update
-                - patch
-            - apiGroups:
-                - groupsnapshot.storage.k8s.io
-              resources:
-                - volumegroupsnapshotcontents/status
-              verbs:
-                - update
-                - patch
-            - apiGroups:
-                - ""
-              resources:
-                - configmaps
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts
-              verbs:
-                - get
-            - apiGroups:
-                - ""
-              resources:
-                - serviceaccounts/token
-              verbs:
-                - create
-            - apiGroups:
-                - ""
-              resources:
-                - nodes
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - gateway.networking.k8s.io
-              resources:
-                - referencegrants
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - replication.storage.openshift.io
-              resources:
-                - volumegroupreplicationcontents
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - replication.storage.openshift.io
-              resources:
-                - volumegroupreplicationclasses
-              verbs:
-                - get
-                - list
-                - watch
-            - apiGroups:
-                - authentication.k8s.io
-              resources:
-                - tokenreviews
-              verbs:
-                - create
-          serviceAccountName: rook-csi-rbd-provisioner-sa
-        - rules:
             - verbs:
                 - use
               apiGroups:
@@ -1457,7 +733,7 @@ spec:
                         valueFrom:
                           fieldRef:
                             fieldPath: metadata.namespace
-                    image: quay.io/ocs-dev/rook-ceph:vmaster-89eb70f42
+                    image: quay.io/ocs-dev/rook-ceph:vmaster-8f56a42d2
                     name: rook-ceph-operator
                     resources:
                       limits:
@@ -1732,124 +1008,6 @@ spec:
                 - get
                 - create
           serviceAccountName: rook-ceph-system
-        - rules:
-            - apiGroups:
-                - coordination.k8s.io
-              resources:
-                - leases
-              verbs:
-                - get
-                - watch
-                - list
-                - delete
-                - update
-                - create
-            - apiGroups:
-                - csiaddons.openshift.io
-              resources:
-                - csiaddonsnodes
-              verbs:
-                - get
-                - watch
-                - list
-                - create
-                - update
-                - delete
-            - apiGroups:
-                - ""
-              resources:
-                - pods
-              verbs:
-                - get
-            - apiGroups:
-                - apps
-              resources:
-                - replicasets
-              verbs:
-                - get
-            - apiGroups:
-                - apps
-              resources:
-                - deployments/finalizers
-                - daemonsets/finalizers
-              verbs:
-                - update
-          serviceAccountName: rook-csi-cephfs-provisioner-sa
-        - rules:
-            - apiGroups:
-                - csiaddons.openshift.io
-              resources:
-                - csiaddonsnodes
-              verbs:
-                - get
-                - watch
-                - list
-                - create
-                - update
-                - delete
-            - apiGroups:
-                - ""
-              resources:
-                - pods
-              verbs:
-                - get
-            - apiGroups:
-                - apps
-              resources:
-                - replicasets
-              verbs:
-                - get
-            - apiGroups:
-                - apps
-              resources:
-                - deployments/finalizers
-                - daemonsets/finalizers
-              verbs:
-                - update
-          serviceAccountName: rook-csi-rbd-plugin-sa
-        - rules:
-            - apiGroups:
-                - coordination.k8s.io
-              resources:
-                - leases
-              verbs:
-                - get
-                - watch
-                - list
-                - delete
-                - update
-                - create
-            - apiGroups:
-                - csiaddons.openshift.io
-              resources:
-                - csiaddonsnodes
-              verbs:
-                - get
-                - watch
-                - list
-                - create
-                - update
-                - delete
-            - apiGroups:
-                - ""
-              resources:
-                - pods
-              verbs:
-                - get
-            - apiGroups:
-                - apps
-              resources:
-                - replicasets
-              verbs:
-                - get
-            - apiGroups:
-                - apps
-              resources:
-                - deployments/finalizers
-                - daemonsets/finalizers
-              verbs:
-                - update
-          serviceAccountName: rook-csi-rbd-provisioner-sa
     strategy: deployment
   installModes:
     - type: OwnNamespace
@@ -1881,7 +1039,7 @@ spec:
   version: 4.22.0
   minKubeVersion: 1.16.0
   relatedImages:
-    - image: quay.io/ocs-dev/rook-ceph:vmaster-89eb70f42
+    - image: quay.io/ocs-dev/rook-ceph:vmaster-8f56a42d2
       name: rook-container
     - image: quay.io/csiaddons/k8s-sidecar:v0.8.0
       name: csiaddons-sidecar

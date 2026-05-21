@@ -37,23 +37,6 @@ func main() {
 	for _, csvFile := range csvFiles {
 		csv := unmarshalCSV(csvFile)
 
-		if strings.HasPrefix(csv.Name, "rook-ceph-operator") {
-			odfCsv.Spec.CustomResourceDefinitions.Owned = append(
-				odfCsv.Spec.CustomResourceDefinitions.Owned, []operatorsv1alpha1.CRDDescription{
-					{
-						Kind:    "CephNVMeOFGateway",
-						Name:    "cephnvmeofgateways.ceph.rook.io",
-						Version: "v1",
-					},
-					{
-						Kind:    "CephObjectStoreAccount",
-						Name:    "cephobjectstoreaccounts.ceph.rook.io",
-						Version: "v1",
-					},
-				}...)
-
-		}
-
 		// whitelisting APIs
 		for _, crd := range csv.Spec.CustomResourceDefinitions.Owned {
 			apis = append(apis, crd.Name)
@@ -80,14 +63,6 @@ func main() {
 				},
 				Spec: deploymentSpec.Spec,
 			})
-
-			// Append the deployments to the deployments
-			deployment := &appsv1.Deployment{}
-			deployment.ObjectMeta.Name = deploymentSpec.Name
-			deployment.ObjectMeta.Labels = deploymentSpec.Label
-			deployment.Spec = deploymentSpec.Spec
-
-			deployments = append(deployments, *deployment)
 		}
 	}
 

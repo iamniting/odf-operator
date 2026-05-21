@@ -88,7 +88,7 @@ func reconcileWebhook(ctx context.Context, cli client.Client, logger logr.Logger
 	}
 
 	if err := reconcileDeploymentMutatingWebhookConfiguration(ctx, cli, logger, operatorNamespace); err != nil {
-		logger.Error(err, "unable to register csv mutating webhook")
+		logger.Error(err, "unable to register deployment mutating webhook")
 		return err
 	}
 
@@ -157,7 +157,7 @@ func reconcileDeploymentMutatingWebhookConfiguration(ctx context.Context, cli cl
 		wh.ObjectSelector = &metav1.LabelSelector{
 			MatchExpressions: []metav1.LabelSelectorRequirement{
 				{
-					Key:      "olm.operatorframework.io/owner-kind: ClusterExtension",
+					Key:      "olm.operatorframework.io/owner-kind",
 					Operator: metav1.LabelSelectorOpIn,
 					Values:   []string{"ClusterExtension"},
 				},
