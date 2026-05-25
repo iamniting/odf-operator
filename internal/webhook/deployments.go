@@ -23,6 +23,7 @@ import (
 	"net/http"
 
 	appsv1 "k8s.io/api/apps/v1"
+	"k8s.io/utils/ptr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
@@ -49,7 +50,7 @@ func (r *OperatorDeploymentMutator) Handle(ctx context.Context, req admission.Re
 		return admission.Errored(http.StatusBadRequest, fmt.Errorf("failed decoding admission review as deployment: %v", err))
 	}
 
-	deployment.Spec.Template.Spec.HostNetwork = true
+	deployment.Spec.Replicas = ptr.To(int32(2))
 
 	marshaledDeployment, err := json.Marshal(deployment)
 	if err != nil {
